@@ -12,6 +12,8 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/", urlRoutes);
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })

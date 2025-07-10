@@ -8,4 +8,6 @@ const urlSchema = new mongoose.Schema({
   clickCount: { type: Number, default: 0 } // for analytics (bonus)
 });
 
+urlSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
 module.exports = mongoose.model("Url", urlSchema);
