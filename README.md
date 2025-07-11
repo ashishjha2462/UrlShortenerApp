@@ -130,19 +130,17 @@ Deletes the shortened URL from the database.
     git clone https://github.com/your-username/url-shortener.git
     cd url-shortener
 
-### 2. Delete node_modules folder
-
-### 3. Install dependencies
+### 2. Install dependencies
 
     npm install
 
-### 4. Configure `.env`
+### 3. Configure `.env`
 
     PORT=5000
     MONGO_URI=mongodb://localhost:27017/urlshortener
     BASE_URL=https://short.ly
 
-### 5. Run the server
+### 4. Run the server
 
     npm start
     
