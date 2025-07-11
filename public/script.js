@@ -15,7 +15,17 @@ document.getElementById("shorten-form").addEventListener("submit", async (e) => 
     });
 
     const data = await res.json();
-    document.getElementById("result").textContent = data.shortUrl || data.error;
+    if (data.error) {
+      document.getElementById("result").textContent = data.error;
+      return;
+    }
+
+    if (data.shortUrl) {
+      document.getElementById("result").textContent = "";
+      renderUrlCard(data, document.getElementById("url-list"));
+    } else {
+      document.getElementById("result").textContent = data.error || "Something went wrong";
+    }
   } catch (err) {
     document.getElementById("result").textContent = "Something went wrong";
   }
@@ -91,3 +101,48 @@ async function fetchUrls() {
 // Fetch when page loads
 window.addEventListener("DOMContentLoaded", fetchUrls);
 
+function renderUrlCard(item, container) {
+  const shortUrl = `${location.origin}/${item.shortCode}`;
+  const expires = item.expiresAt
+    ? new Date(item.expiresAt).toLocaleString()
+    : "Never";
+
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <div class="url-card">
+      <div class="url-info">
+        <p><strong>Original URL:</strong><br/>
+          <a href="${item.originalUrl}" target="_blank">${item.originalUrl}</a>
+        </p>
+        <p>
+          <strong>Short URL:</strong><br/>
+          <a href="${shortUrl}" target="_blank">${shortUrl}</a><br/>
+          <button class="copy-btn" data-url="${shortUrl}">Copy</button>
+          <button class="delete-btn" data-code="${item.shortCode}">Delete</button>
+        </p>
+        <p><strong>Expires at:</strong> ${expires}</p>
+        <p><strong>Created at:</strong> ${new Date(item.createdAt).toLocaleString()}</p>
+        <p><strong>Click Count:</strong> ${item.clickCount || 0}</p>
+      </div>
+      <div class="url-qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(shortUrl)}&size=100x100" alt="QR Code" />
+      </div>
+    </div>
+  `;
+  container.prepend(li);
+
+  // Add listeners
+  li.querySelector(".copy-btn").addEventListener("click", () => {
+    navigator.clipboard.writeText(shortUrl).then(() => {
+      li.querySelector(".copy-btn").textContent = "Copied!";
+      setTimeout(() => li.querySelector(".copy-btn").textContent = "Copy", 1500);
+    });
+  });
+
+  li.querySelector(".delete-btn").addEventListener("click", async () => {
+    if (confirm("Are you sure you want to delete this URL?")) {
+      await fetch(`/urls/${item.shortCode}`, { method: "DELETE" });
+      fetchUrls();
+    }
+  });
+}
