@@ -31,8 +31,16 @@ exports.shortenUrl = async (req, res) => {
       expiresAt: expiry,
     });
     await newUrl.save();
-    console.log(`Short URL created: ${BASE_URL}/${code} (expires at ${expiry})`);
-    res.json({ shortUrl: `${BASE_URL}/${code}` });
+    const savedUrl = await Url.findOne({ shortCode: code });
+      
+    res.json({
+      originalUrl: savedUrl.originalUrl,
+      shortCode: savedUrl.shortCode,
+      shortUrl: `${BASE_URL}/${savedUrl.shortCode}`,
+      createdAt: savedUrl.createdAt,
+      expiresAt: savedUrl.expiresAt,
+      clickCount: savedUrl.clickCount,
+    });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
