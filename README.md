@@ -158,14 +158,6 @@ Then visit:
 
   <img width="923" height="544" alt="Screenshot 2025-07-10 181507" src="https://github.com/user-attachments/assets/838b53f3-5c16-4cdd-9eca-9009c0892f9c" />
 
-- QR code cards
-  <img width="919" height="883" alt="Screenshot 2025-07-10 181520" src="https://github.com/user-attachments/assets/13e4d4dd-bbbe-4ceb-b703-3acbc87fed0b" />
-
-- Copy/Delete buttons in action
-  <img width="820" height="857" alt="Screenshot 2025-07-10 181541" src="https://github.com/user-attachments/assets/5384c411-60c4-43e9-9412-783c028cd6f7" />
-
-  <img width="845" height="958" alt="Screenshot 2025-07-10 181557" src="https://github.com/user-attachments/assets/191eb4e9-90c5-4eea-9b46-d50ebf36da2c" />
-
 ---
 
 ## ✨ Future Enhancements
